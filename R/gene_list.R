@@ -1,6 +1,6 @@
 #' gene_list Function
 #'
-#' Link vector of gene identifiers to gene-list.com
+#' Export vector of gene identifiers to gene-list.com
 #'
 #' @importFrom utils browseURL
 #'
