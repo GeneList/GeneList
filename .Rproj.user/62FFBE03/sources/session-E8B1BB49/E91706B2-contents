@@ -1,0 +1,16 @@
+#' Test Function
+#'
+#' Test function to test package.
+#'
+#' @param x Character
+#'
+#' @return Character
+#'
+#' @export
+#'
+
+test_function<-function(x){
+
+  return(x)
+
+}

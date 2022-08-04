@@ -1,0 +1,11 @@
+#' packageTest
+#'
+#' Contains test function
+#'
+#' @docType package
+#'
+#' @author Miles Mee \email{miles.william.mee@gmail.com}
+#'
+#' @name packageTest
+#'
+NULL

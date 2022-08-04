@@ -1,0 +1,7 @@
+
+
+
+install.packages("D:/projects/GeneList/GeneList_1.0.0.tar.gz",repos=NULL, type="source")
+library('packageTest')
+
+gene_list(c('TP53', 'BCL2'))
