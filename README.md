@@ -23,8 +23,8 @@ Open R in the directory where you cloned the package and run `install.packages("
 library(GeneList)
 
 # Input vector of gene Ids 
-genes<-c("TP53","PIK3CA","KRAS","PTEN","BRAF")
+genes<-c("PIK3CA","KRAS","PTEN","BRAF")
 
 # Export list of genes to gene-list.com 
-gene_list(genes)
+gene_list(genes,genome="mouse",search_term="Cancer")
 ```
