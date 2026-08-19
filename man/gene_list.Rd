@@ -2,16 +2,39 @@
 % Please edit documentation in R/gene_list.R
 \name{gene_list}
 \alias{gene_list}
-\title{gene_list Function}
+\title{Open a list of genes on gene-list.com}
 \usage{
-gene_list(x)
+gene_list(genes, genome = "human", search_term = "")
 }
 \arguments{
-\item{x}{vector}
+\item{genes}{Character vector of gene identifiers.}
+
+\item{genome}{Genome to look the identifiers up in. One of
+\code{gene_list_genomes()$genome}; defaults to \code{"human"}.}
+
+\item{search_term}{Optional term added to the PubMed, Google and OpenAlex
+literature searches on the site, for example \code{"cancer"}.}
 }
 \value{
-null
+The URL that was opened, invisibly.
 }
 \description{
-Link vector of gene identifiers to gene-list.com
+Opens the browser on gene-list.com with the given identifiers loaded, which
+links each one to around forty research resources. Identifiers may be gene
+symbols, Ensembl or UniProt accessions, Entrez ids, a GO term, or a
+chromosome range.
+}
+\examples{
+\dontrun{
+gene_list(c("PIK3CA", "KRAS", "PTEN", "BRAF"))
+
+gene_list(c("Ccne1", "Trp53"), genome = "mouse", search_term = "cancer")
+
+# Rat, frog, E. coli and Arabidopsis are among the genomes added since 1.0.0
+gene_list(c("AT1G01010", "AT1G01020"), genome = "arabidopsis_thaliana")
+}
+
+}
+\seealso{
+\code{\link{gene_list_genomes}} for the genomes available.
 }
