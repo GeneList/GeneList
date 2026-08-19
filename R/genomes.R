@@ -1,8 +1,13 @@
 #' Genomes available on gene-list.com
 #'
-#' The value of \code{genome} accepted by \code{\link{gene_list}}, with the
+#' The genomes \code{\link{gene_list}} can look identifiers up in, with the
 #' common and scientific name of each species and the assembly the gene
 #' annotations come from.
+#'
+#' Either name can be given as \code{genome}: \code{"rat"} and \code{"Rattus
+#' norvegicus"} are the same genome. The \code{genome} column is the value the
+#' site itself uses, which is a common name for some species and a scientific
+#' one for others.
 #'
 #' @return A data frame with columns \code{genome}, \code{common_name},
 #'   \code{scientific_name} and \code{assembly}, ordered as they appear in the
@@ -12,8 +17,11 @@
 #' @examples
 #' gene_list_genomes()
 #'
-#' # The values accepted by gene_list(genome = )
-#' gene_list_genomes()$genome
+#' # Names that can be given to gene_list(genome = )
+#' gene_list_genomes()[, c("common_name", "scientific_name")]
+#'
+#' @seealso \code{\link{gene_list_genome}} to resolve a name to the value the
+#'   site expects.
 #'
 #' @export
 gene_list_genomes <- function() {
