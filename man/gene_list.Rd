@@ -9,8 +9,10 @@ gene_list(genes, genome = "human", search_term = "")
 \arguments{
 \item{genes}{Character vector of gene identifiers.}
 
-\item{genome}{Genome to look the identifiers up in. One of
-\code{gene_list_genomes()$genome}; defaults to \code{"human"}.}
+\item{genome}{Genome to look the identifiers up in, given as either the
+common or the scientific name -- \code{"rat"} and \code{"Rattus
+norvegicus"} are the same genome. Case and spacing are ignored. See
+\code{\link{gene_list_genomes}}; defaults to \code{"human"}.}
 
 \item{search_term}{Optional term added to the PubMed, Google and OpenAlex
 literature searches on the site, for example \code{"cancer"}.}
@@ -30,11 +32,16 @@ gene_list(c("PIK3CA", "KRAS", "PTEN", "BRAF"))
 
 gene_list(c("Ccne1", "Trp53"), genome = "mouse", search_term = "cancer")
 
+# Either name works, for every genome
+gene_list("Ccne1", genome = "rat")
+gene_list("Ccne1", genome = "Rattus norvegicus")
+
 # Rat, frog, E. coli and Arabidopsis are among the genomes added since 1.0.0
-gene_list(c("AT1G01010", "AT1G01020"), genome = "arabidopsis_thaliana")
+gene_list(c("AT1G01010", "AT1G01020"), genome = "Arabidopsis thaliana")
 }
 
 }
 \seealso{
-\code{\link{gene_list_genomes}} for the genomes available.
+\code{\link{gene_list_genomes}} for the genomes available, and
+  \code{\link{gene_list_genome}} to resolve a name without opening anything.
 }

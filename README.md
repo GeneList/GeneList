@@ -35,47 +35,63 @@ GO term such as `GO:0006281`, or a chromosome range such as
 
 ## Genomes
 
-Pass any of the following as `genome`. The default is `human`.
+`genome` takes either the common name or the scientific name of any species
+below. Case and spacing are ignored, so `"rat"`, `"Rat"`, `"Rattus norvegicus"`
+and `"rattus_norvegicus"` are all the same genome. The default is human.
 
 ``` r
 # The full table, with common names, scientific names and assemblies
 gene_list_genomes()
 ```
 
-| `genome` | Species | Assembly |
+| Common name | Scientific name | Assembly |
 | --- | --- | --- |
-| `human` | Human — *Homo sapiens* | GRCh38 |
-| `mouse` | Mouse — *Mus musculus* | GRCm39 |
-| `rattus_norvegicus` | Rat — *Rattus norvegicus* | GRCr8 |
-| `danio_rerio` | Zebrafish — *Danio rerio* | GRCz11 |
-| `drosophila_melanogaster` | Fruit fly — *Drosophila melanogaster* | BDGP6 |
-| `caenorhabditis_elegans` | Roundworm — *Caenorhabditis elegans* | WBcel235 |
-| `yeast` | Baker's yeast — *Saccharomyces cerevisiae* | R64-1-1 |
-| `escherichia_coli` | E. coli — *Escherichia coli* K-12 | ASM584v2 |
-| `arabidopsis_thaliana` | Thale cress — *Arabidopsis thaliana* | TAIR10 |
-| `xenopus_tropicalis` | Tropical clawed frog — *Xenopus tropicalis* | UCB_Xtro_10.0 |
-| `canis_lupus_familiaris` | Dog — *Canis lupus familiaris* | ROS_Cfam_1.0 |
-| `felis_catus` | Cat — *Felis catus* | Fca126_mat1.0 |
-| `oryctolagus_cuniculus` | Rabbit — *Oryctolagus cuniculus* | OryCun2.0 |
-| `cavia_porcellus` | Guinea pig — *Cavia porcellus* | Cavpor3.0 |
-| `macaca_mulatta` | Rhesus macaque — *Macaca mulatta* | Mmul_10 |
-| `bos_taurus` | Cattle — *Bos taurus* | ARS-UCD2.0 |
-| `sus_scrofa` | Pig — *Sus scrofa* | Sscrofa11.1 |
-| `ovis_aries` | Sheep — *Ovis aries* | ARS-UI_Ramb_v3.0 |
-| `equus_caballus` | Horse — *Equus caballus* | EquCab3.0 |
-| `gallus_gallus` | Chicken — *Gallus gallus* | GRCg7b |
-| `apis_mellifera` | Honey bee — *Apis mellifera* | Amel_HAv3.1 |
-| `oryza_sativa` | Rice — *Oryza sativa* | IRGSP-1.0 |
-| `zea_mays` | Maize — *Zea mays* | B73 NAM-5.0 |
-| `glycine_max` | Soybean — *Glycine max* | Glycine_max_v2.1 |
+| Human | *Homo sapiens* | GRCh38 |
+| Mouse | *Mus musculus* | GRCm39 |
+| Rat | *Rattus norvegicus* | GRCr8 |
+| Zebrafish | *Danio rerio* | GRCz11 |
+| Fruit fly | *Drosophila melanogaster* | BDGP6 |
+| Roundworm | *Caenorhabditis elegans* | WBcel235 |
+| Baker's yeast | *Saccharomyces cerevisiae* | R64-1-1 |
+| E. coli | *Escherichia coli* K-12 | ASM584v2 |
+| Thale cress | *Arabidopsis thaliana* | TAIR10 |
+| Tropical clawed frog | *Xenopus tropicalis* | UCB_Xtro_10.0 |
+| Dog | *Canis lupus familiaris* | ROS_Cfam_1.0 |
+| Cat | *Felis catus* | Fca126_mat1.0 |
+| Rabbit | *Oryctolagus cuniculus* | OryCun2.0 |
+| Guinea pig | *Cavia porcellus* | Cavpor3.0 |
+| Rhesus macaque | *Macaca mulatta* | Mmul_10 |
+| Cattle | *Bos taurus* | ARS-UCD2.0 |
+| Pig | *Sus scrofa* | Sscrofa11.1 |
+| Sheep | *Ovis aries* | ARS-UI_Ramb_v3.0 |
+| Horse | *Equus caballus* | EquCab3.0 |
+| Chicken | *Gallus gallus* | GRCg7b |
+| Honey bee | *Apis mellifera* | Amel_HAv3.1 |
+| Rice | *Oryza sativa* | IRGSP-1.0 |
+| Maize | *Zea mays* | B73 NAM-5.0 |
+| Soybean | *Glycine max* | Glycine_max_v2.1 |
 
 ``` r
-# Rat
-gene_list(c("Ccne1", "Trp53"), genome = "rattus_norvegicus")
+# These are the same request
+gene_list(c("Ccne1", "Trp53"), genome = "rat")
+gene_list(c("Ccne1", "Trp53"), genome = "Rattus norvegicus")
 
-# Arabidopsis
-gene_list(c("AT1G01010", "AT1G01020"), genome = "arabidopsis_thaliana")
+# As are these
+gene_list(c("AT1G01010", "AT1G01020"), genome = "thale cress")
+gene_list(c("AT1G01010", "AT1G01020"), genome = "Arabidopsis thaliana")
 ```
 
-An unrecognised `genome` raises an error listing the ones available, rather
+An unrecognised `genome` raises an error listing the species available, rather
 than opening a page with no genes on it.
+
+The site itself matches on one name per genome — a common name for some species
+and a scientific one for others — which is what `gene_list_genomes()$genome`
+holds. `gene_list_genome()` shows what a name resolves to:
+
+``` r
+gene_list_genome("Baker's yeast")
+#> [1] "yeast"
+
+gene_list_genome("Rat")
+#> [1] "rattus_norvegicus"
+```
