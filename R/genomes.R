@@ -1,13 +1,67 @@
+# The genome list lives on the site, not in this file. gene_list_genomes()
+# reads it from /genomes.json so that a genome added to gene-list.com works
+# without a release here, and falls back to the copy below when the site
+# cannot be reached. Before this the list was bundled only, and the package
+# spent three expansions rejecting genomes the site had had for months.
+
+genelist_cache <- new.env(parent = emptyenv())
+
+genomes_url <- function() "https://www.gene-list.com/genomes.json"
+
+#' Read the genome list from the site
+#'
+#' Raises on anything going wrong; \code{gene_list_genomes} is the forgiving
+#' version of this.
+#'
+#' @param timeout Seconds to wait for the site.
+#' @return A data frame shaped like \code{\link{gene_list_genomes}}.
+#' @noRd
+fetch_genomes <- function(timeout = 5) {
+  previous <- options(timeout = timeout)
+  on.exit(options(previous), add = TRUE)
+
+  connection <- url(genomes_url(), open = "rb")
+  on.exit(close(connection), add = TRUE)
+  payload <- jsonlite::fromJSON(
+    paste(readLines(connection, warn = FALSE), collapse = ""),
+    simplifyDataFrame = TRUE
+  )
+
+  rows <- payload$genomes
+  required <- c("genome", "common_name", "scientific_name", "assembly")
+  if (!is.data.frame(rows) || !all(required %in% names(rows)) || nrow(rows) == 0) {
+    stop("genome list from the site was empty or malformed", call. = FALSE)
+  }
+
+  data.frame(
+    genome = as.character(rows$genome),
+    common_name = as.character(rows$common_name),
+    scientific_name = as.character(rows$scientific_name),
+    assembly = as.character(rows$assembly),
+    # A field the site adds later must not break an older install of this.
+    group = if (is.null(rows$group)) "" else as.character(rows$group),
+    stringsAsFactors = FALSE
+  )
+}
+
 #' Genomes available on gene-list.com
 #'
 #' The genomes \code{\link{gene_list}} can look identifiers up in, with the
 #' common and scientific name of each species and the assembly the gene
 #' annotations come from.
 #'
+#' Read from the site so that a genome added there works without a release of
+#' this package. If the site cannot be reached the copy bundled with the
+#' package is used instead, so this never fails for want of a network. The
+#' result is cached for the session.
+#'
 #' Either name can be given as \code{genome}: \code{"rat"} and \code{"Rattus
 #' norvegicus"} are the same genome. The \code{genome} column is the value the
 #' site itself uses, which is a common name for some species and a scientific
 #' one for others.
+#'
+#' @param refresh Look the list up again rather than using the cached copy.
+#' @param timeout Seconds to wait for the site before falling back.
 #'
 #' @return A data frame with columns \code{genome}, \code{common_name},
 #'   \code{scientific_name}, \code{assembly} and \code{group}, ordered as they
@@ -25,8 +79,25 @@
 #' @seealso \code{\link{gene_list_genome}} to resolve a name to the value the
 #'   site expects.
 #'
+#' @importFrom jsonlite fromJSON
 #' @export
-gene_list_genomes <- function() {
+gene_list_genomes <- function(refresh = FALSE, timeout = 5) {
+  if (!refresh && !is.null(genelist_cache$genomes)) {
+    return(genelist_cache$genomes)
+  }
+
+  live <- tryCatch(fetch_genomes(timeout = timeout), error = function(e) NULL)
+  genelist_cache$genomes <- if (is.null(live)) bundled_genomes() else live
+  genelist_cache$genomes
+}
+
+#' The genome list as it stood when this package was built
+#'
+#' Used when the site cannot be reached. Regenerated from /genomes.json.
+#'
+#' @return A data frame shaped like \code{\link{gene_list_genomes}}.
+#' @noRd
+bundled_genomes <- function() {
   data.frame(
     genome = c(
       "human", "mouse", "rattus_norvegicus", "danio_rerio",

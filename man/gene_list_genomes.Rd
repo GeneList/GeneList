@@ -4,7 +4,12 @@
 \alias{gene_list_genomes}
 \title{Genomes available on gene-list.com}
 \usage{
-gene_list_genomes()
+gene_list_genomes(refresh = FALSE, timeout = 5)
+}
+\arguments{
+\item{refresh}{Look the list up again rather than using the cached copy.}
+
+\item{timeout}{Seconds to wait for the site before falling back.}
 }
 \value{
 A data frame with columns \code{genome}, \code{common_name},
@@ -20,6 +25,11 @@ common and scientific name of each species and the assembly the gene
 annotations come from.
 }
 \details{
+Read from the site so that a genome added there works without a release of
+this package. If the site cannot be reached the copy bundled with the
+package is used instead, so this never fails for want of a network. The
+result is cached for the session.
+
 Either name can be given as \code{genome}: \code{"rat"} and \code{"Rattus
 norvegicus"} are the same genome. The \code{genome} column is the value the
 site itself uses, which is a common name for some species and a scientific
