@@ -1,11 +1,11 @@
 Package: GeneList
 Type: Package
 Title: GeneList
-Version: 1.1.0
+Version: 1.2.0
 Author: GeneList
 Maintainer: GeneList <contact.genelist@gmail.com>
 Description: Export a vector of gene identifiers to gene-list.com, which links
-    each one to around forty research resources. Supports the 24 genomes
+    each one to around forty research resources. Supports the 161 genomes
     available on the site, from human and mouse through to E. coli and
     Arabidopsis.
 License: GPL-2

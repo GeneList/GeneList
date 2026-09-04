@@ -8,9 +8,11 @@ gene_list_genomes()
 }
 \value{
 A data frame with columns \code{genome}, \code{common_name},
-  \code{scientific_name} and \code{assembly}, ordered as they appear in the
-  species menu on the site: the commonly used model organisms first, then
-  the rest by taxonomic group.
+  \code{scientific_name}, \code{assembly} and \code{group}, ordered as they
+  appear in the species menu on the site: the commonly used model organisms
+  first, then the rest by taxonomic group. \code{group} is that menu
+  heading, so \code{subset(gene_list_genomes(), group == "Birds")} is the
+  birds.
 }
 \description{
 The genomes \code{\link{gene_list}} can look identifiers up in, with the
