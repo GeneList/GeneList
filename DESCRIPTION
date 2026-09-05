@@ -1,7 +1,7 @@
 Package: GeneList
 Type: Package
 Title: GeneList
-Version: 1.2.0
+Version: 1.3.0
 Author: GeneList
 Maintainer: GeneList <contact.genelist@gmail.com>
 Description: Export a vector of gene identifiers to gene-list.com, which links

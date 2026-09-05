@@ -90,7 +90,7 @@ gene_list_genome <- function(genome) {
   if (length(match) == 0) {
     available <- gene_list_genomes()
 
-    # Listing every genome was reasonable at 24 and is a wall of text at 161,
+    # Listing every genome was reasonable at 24 and is a wall of text at 170,
     # so offer the closest names instead. Distance is measured against each
     # name on its own and divided by the length of the longer string: compared
     # against the joined "common / scientific" label, raw edit distance simply
@@ -109,16 +109,6 @@ gene_list_genome <- function(genome) {
     rows <- match(ranked, available$genome)
     nearest <- paste0(available$common_name[rows], " / ",
                       available$scientific_name[rows])
-
-    stop(
-      "Unknown genome: \"", genome, "\".\n",
-      "Did you mean one of:\n  ",
-      paste(nearest, collapse = "\n  "),
-      "\n",
-      "All ", nrow(available), " are listed by gene_list_genomes().",
-      call. = FALSE
-    )
-    nearest <- labels[order(distance)][seq_len(min(5L, length(labels)))]
 
     stop(
       "Unknown genome: \"", genome, "\".\n",
